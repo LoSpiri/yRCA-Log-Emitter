@@ -92,7 +92,7 @@ def main():
                                     jsonLog["pod_name"] = podName
                                     requestID = jsonLog["x-request-id"]
                                     authority = jsonLog["authority"]
-                                    if(jsonLog["response_code"] == 408 or jsonLog["response_code"] == 504 or (jsonLog["response_code"] == 503 and not(ZeroOrNull(jsonLog["duration"])) and ZeroOrNull(jsonLog["request_tx_duration"]) and ZeroOrNull(jsonLog["response_duration"]) and ZeroOrNull(jsonLog["response_tx_duration"]))):
+                                    if(jsonLog["response_code"] == 408 or (jsonLog["response_code"] == 504 and jsonLog["response_flags"] == "UT" and jsonLog["response_code_details"] == "response_timeout") or (jsonLog["response_code"] == 503 and not(ZeroOrNull(jsonLog["duration"])) and ZeroOrNull(jsonLog["request_tx_duration"]) and ZeroOrNull(jsonLog["response_duration"]) and ZeroOrNull(jsonLog["response_tx_duration"]))):
                                         produce_yrca_logs(jsonLog, None)
                                         break
                                     added = False
