@@ -50,21 +50,7 @@ def main():
         cmd = "kubectl apply -f " + newFileName + ".yaml"
         subprocess.run(cmd,shell=True)
         print("Istio has installed the timeout for the service " + serviceName + " with duration " + timeoutDuration)
+
+        
 if(__name__ == "__main__"):
     main()
-    
-# ---
-# apiVersion: networking.istio.io/v1alpha3
-# kind: VirtualService
-# metadata:
-#   name: timeouttest
-#   namespace: default
-# spec:
-#   hosts:
-#   - chaosecho
-#   http:
-#     - route:
-#       - destination:
-#           host: chaosecho
-#       timeout: 5s
-# ---
