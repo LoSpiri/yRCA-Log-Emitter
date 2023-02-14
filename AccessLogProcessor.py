@@ -17,7 +17,6 @@ def run_cmd(outputFile):
     subprocess.run(cmd, shell=True)
 
 
-# Function to generate the logs according to yrca's specific
 def produce_yrca_logs(requestJson, responseJson):
     responseCode = requestJson["response_code"]
     requestID = requestJson["x-request-id"]
@@ -31,14 +30,13 @@ def produce_yrca_logs(requestJson, responseJson):
     else:
         responseServiceName = requestJson["authority"]
 
-    # Single failing to contact
     if(responseJson == None):
         print(requestStartTime + " - " + "INFO" + " - " + requestServiceName + " - " + "Sending request to " + responseServiceName + " (request_id: " + requestID + ")")
         requestDateTime = datetime.strptime(requestStartTime, '%Y-%m-%dT%H:%M:%S.%fZ')
         delta2 = timedelta(milliseconds=requestJson["duration"])
         requestEndTime = datetime.strftime(requestDateTime + delta2,'%Y-%m-%dT%H:%M:%S.%fZ')[:-4] + "Z"
         print(requestEndTime + " - " + "INFO" + " - " + requestServiceName + " - " + "Failing to contact " + requestJson["authority"] + " (request_id: " + requestID + ")")
-    # Request / response OK
+
     elif(responseCode == 200):
         print(requestStartTime + " - " + "INFO" + " - " + requestServiceName + " - " + "Sending request to " + responseServiceName + " (request_id: " + requestID + ")")
         print(responseStartTime + " - " + "INFO" + " - " + responseServiceName + " - " + "Reading request from " + requestServiceName + " (request_id: " + requestID + ")")
@@ -50,7 +48,7 @@ def produce_yrca_logs(requestJson, responseJson):
         delta2 = timedelta(milliseconds=requestJson["duration"])
         requestEndTime = datetime.strftime(requestDateTime + delta2,'%Y-%m-%dT%H:%M:%S.%fZ')[:-4] + "Z"
         print(requestEndTime + " - " + "INFO" + " - " + requestServiceName + " - " + "Received response OK from " + responseServiceName + " (request_id: " + requestID + ")")
-    # Request / response internal error
+
     elif(responseCode == 500):
         print(requestStartTime + " - " + "INFO" + " - " + requestServiceName + " - " + "Sending request to " + responseServiceName + " (request_id: " + requestID + ")")
         print(responseStartTime + " - " + "INFO" + " - " + responseServiceName + " - " + "Reading request from " + requestServiceName + " (request_id: " + requestID + ")")
@@ -78,7 +76,6 @@ def main():
                 time.sleep(1)
                 f.seek(where)
             else:
-                # Processor
                 if string[-2] == "}":
                     stack = []
                     for i in range(len(string) - 2, -1, -1):
